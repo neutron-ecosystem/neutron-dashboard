@@ -23,13 +23,20 @@ const ReactScripts = {
 
 const serialize = (context) => {
   const { spec } = context;
+  const functions = {};
+  
+  for (const funcName of context.schema.functions.keys()) {
+    functions[funcName] = context.schema.meta.get(`function.${funcName}`);
+  }
+
   return {
     spec,
+    functions
   };
 };
 
 module.exports = (app, context) => {
-  ReactScripts.build();
+  ReactScripts.start();
 
   const staticDir = path.join(__dirname, '..', 'build');
 
