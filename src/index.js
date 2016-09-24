@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app';
+import Neutron from './components/neutron';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -12,7 +13,9 @@ import './index.css';
 
 ReactDOM.render(
   <MuiThemeProvider>
-    <App />
+    <Neutron host="http://localhost:9001">
+      <App />
+    </Neutron>
   </MuiThemeProvider>,
   document.getElementById('root')
 );

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { List, ListItem } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 import ContentInbox from 'material-ui/svg-icons/content/inbox';
@@ -9,7 +9,20 @@ import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import './App.css';
 
 class App extends Component {
+  static contextTypes = {
+    neutron: PropTypes.object
+  };
+
   render() {
+    console.log(this.context.neutron);
+
+    this.context.neutron.getDashboardContext({
+      a: 1,
+      b: 2
+    }).then(context => context.json()).then(context => {
+      console.log(context);
+    })
+
     return (
       <Paper className="App" zDepth={3}>
         <List>

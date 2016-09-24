@@ -24,7 +24,7 @@ const ReactScripts = {
 const serialize = (context) => {
   const { spec } = context;
   const functions = {};
-  
+
   for (const funcName of context.schema.functions.keys()) {
     functions[funcName] = context.schema.meta.get(`function.${funcName}`);
   }
@@ -35,9 +35,7 @@ const serialize = (context) => {
   };
 };
 
-module.exports = (app, context) => {
-  ReactScripts.start();
-
+const serverStaticBuild = (app) => {
   const staticDir = path.join(__dirname, '..', 'build');
 
   app.use(mount('/dashboard', serve(staticDir, {
@@ -48,8 +46,21 @@ module.exports = (app, context) => {
     host: 'http://localhost:9001/',
     map: path => `dashboard/static/${path}`
   })));
+};
 
-  app.use(route.get('/dashboard/context', function* getContext(next) {
-    this.body = serialize(context);
-  }));
+module.exports = (app, context) => {
+  ReactScripts.start();
+
+  context.schema.addFunction('getDashboardContext', (props) => {
+    console.log(props);
+    return serialize(context);
+  });
+
+  // ----
+
+  serverStaticBuild(app);
+
+  // app.use(route.get('/dashboard/context', function* getContext(next) {
+  //   this.body = serialize(context);
+  // }));
 };
